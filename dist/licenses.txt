@@ -434,6 +434,9 @@ Apache-2.0
    limitations under the License.
 
 
+conventional-commit-types
+ISC
+
 conventional-commits-parser
 MIT
 ### MIT License

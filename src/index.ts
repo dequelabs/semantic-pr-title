@@ -1,21 +1,11 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import * as conventionalCommitsParser from 'conventional-commits-parser'
+import * as conventionalCommitsTypes from 'conventional-commit-types'
 
 const validTypes: string[] = [
-  'feat',
-  'fix',
-  'perf',
-  'style',
-  'docs',
-  'refactor',
-  'test',
-  'build',
-  'ci',
-  'chore',
-  'merge',
-  'revert',
-  'release'
+  ...Object.keys(conventionalCommitsTypes.types),
+  'merge'
 ]
 
 function main() {

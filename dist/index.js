@@ -31039,21 +31039,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const conventionalCommitsParser = __importStar(__nccwpck_require__(1655));
-const validTypes = [
-    'feat',
-    'fix',
-    'perf',
-    'style',
-    'docs',
-    'refactor',
-    'test',
-    'build',
-    'ci',
-    'chore',
-    'merge',
-    'revert',
-    'release'
-];
+const conventionalCommitsTypes = __importStar(__nccwpck_require__(9682));
+const validTypes = [...Object.keys(conventionalCommitsTypes.types), 'merge'];
 function main() {
     try {
         const title = github.context.payload &&
@@ -31218,6 +31205,14 @@ module.exports = require("util");
 
 "use strict";
 module.exports = require("zlib");
+
+/***/ }),
+
+/***/ 9682:
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"types":{"feat":{"description":"A new feature","title":"Features"},"fix":{"description":"A bug fix","title":"Bug Fixes"},"docs":{"description":"Documentation only changes","title":"Documentation"},"style":{"description":"Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)","title":"Styles"},"refactor":{"description":"A code change that neither fixes a bug nor adds a feature","title":"Code Refactoring"},"perf":{"description":"A code change that improves performance","title":"Performance Improvements"},"test":{"description":"Adding missing tests or correcting existing tests","title":"Tests"},"build":{"description":"Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)","title":"Builds"},"ci":{"description":"Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)","title":"Continuous Integrations"},"chore":{"description":"Other changes that don\'t modify src or test files","title":"Chores"},"revert":{"description":"Reverts a previous commit","title":"Reverts"}}}');
 
 /***/ }),
 
