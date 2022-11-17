@@ -1,6 +1,6 @@
-import core from '@actions/core'
-import github from '@actions/github'
-import conventionalCommitsParser from 'conventional-commits-parser'
+import * as core from '@actions/core'
+import * as github from '@actions/github'
+import * as conventionalCommitsParser from 'conventional-commits-parser'
 
 const validTypes: string[] = [
   'feat',
