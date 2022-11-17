@@ -1,0 +1,5 @@
+name: 'Semantic PR Title'
+description: 'Validate pull request titles against Conventional Commits'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
