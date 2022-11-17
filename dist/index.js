@@ -31012,13 +31012,33 @@ function wrappy (fn, cb) {
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __importDefault(__nccwpck_require__(2186));
-const github_1 = __importDefault(__nccwpck_require__(5438));
-const conventional_commits_parser_1 = __importDefault(__nccwpck_require__(1655));
+const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
+const conventionalCommitsParser = __importStar(__nccwpck_require__(1655));
 const validTypes = [
     'feat',
     'fix',
@@ -31036,28 +31056,28 @@ const validTypes = [
 ];
 function main() {
     try {
-        const title = github_1.default.context.payload &&
-            github_1.default.context.payload.pull_request &&
-            github_1.default.context.payload.pull_request.title;
+        const title = github.context.payload &&
+            github.context.payload.pull_request &&
+            github.context.payload.pull_request.title;
         if (!title) {
-            core_1.default.setFailed('PR does not have a title');
+            core.setFailed('PR does not have a title');
             return;
         }
-        core_1.default.info(`Validating PR title: "${title}"`);
-        const { type } = conventional_commits_parser_1.default.sync(title, {
+        core.info(`Validating PR title: "${title}"`);
+        const { type } = conventionalCommitsParser.sync(title, {
             mergePattern: /^Merge pull request #(\d+) from (.*)$/,
             mergeCorrespondence: ['id', 'source'],
             headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
         });
-        core_1.default.info(`PR type: "${type}"`);
+        core.info(`PR type: "${type}"`);
         if (!type || !validTypes.includes(type.toLowerCase())) {
-            core_1.default.setFailed('PR title does not follow conventional commits.\n\nPlease refer to https://www.conventionalcommits.org/en/v1.0.0');
+            core.setFailed('PR title does not follow conventional commits.\n\nPlease refer to https://www.conventionalcommits.org/en/v1.0.0');
             return;
         }
         console.log('Title matches conventional commits');
     }
     catch (error) {
-        core_1.default.setFailed(error.message);
+        core.setFailed(error.message);
     }
 }
 main();
