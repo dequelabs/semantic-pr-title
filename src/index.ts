@@ -1,12 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import * as conventionalCommitsParser from 'conventional-commits-parser'
-import * as conventionalCommitsTypes from 'conventional-commit-types'
-
-const validTypes: string[] = [
-  ...Object.keys(conventionalCommitsTypes.types),
-  'merge'
-]
+import validateTitle from './validate-title'
 
 function main() {
   try {
@@ -23,22 +17,14 @@ function main() {
 
     core.info(`Validating PR title: "${title}"`)
 
-    const { type } = conventionalCommitsParser.sync(title, {
-      // parse merge commits
-      mergePattern: /^Merge pull request #(\d+) from (.*)$/,
-      mergeCorrespondence: ['id', 'source'],
-
-      // allow comma in scope
-      headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
-    })
+    const { valid, type } = validateTitle(title)
 
     core.info(`PR type: "${type}"`)
 
-    if (!type || !validTypes.includes(type.toLowerCase())) {
+    if (!valid) {
       core.setFailed(
         'PR title does not follow conventional commits.\n\nPlease refer to https://www.conventionalcommits.org/en/v1.0.0'
       )
-      return
     }
 
     console.log('Title matches conventional commits')

@@ -31035,12 +31035,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-const conventionalCommitsParser = __importStar(__nccwpck_require__(1655));
-const conventionalCommitsTypes = __importStar(__nccwpck_require__(9682));
-const validTypes = [...Object.keys(conventionalCommitsTypes.types), 'merge'];
+const validate_title_1 = __importDefault(__nccwpck_require__(7178));
 function main() {
     try {
         const title = github.context.payload &&
@@ -31051,15 +31052,10 @@ function main() {
             return;
         }
         core.info(`Validating PR title: "${title}"`);
-        const { type } = conventionalCommitsParser.sync(title, {
-            mergePattern: /^Merge pull request #(\d+) from (.*)$/,
-            mergeCorrespondence: ['id', 'source'],
-            headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
-        });
+        const { valid, type } = (0, validate_title_1.default)(title);
         core.info(`PR type: "${type}"`);
-        if (!type || !validTypes.includes(type.toLowerCase())) {
+        if (!valid) {
             core.setFailed('PR title does not follow conventional commits.\n\nPlease refer to https://www.conventionalcommits.org/en/v1.0.0');
-            return;
         }
         console.log('Title matches conventional commits');
     }
@@ -31068,6 +31064,69 @@ function main() {
     }
 }
 main();
+
+
+/***/ }),
+
+/***/ 7178:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const conventionalCommitsParser = __importStar(__nccwpck_require__(1655));
+const conventionalCommitsTypes = __importStar(__nccwpck_require__(9682));
+const validTypes = Object.keys(conventionalCommitsTypes.types);
+function isValidTitle(title) {
+    const { type } = conventionalCommitsParser.sync(title, {
+        mergePattern: /^Merge pull request #(\d+) from (.*)$/,
+        mergeCorrespondence: ['id', 'source'],
+        headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
+    });
+    if (!type) {
+        const firstWord = title.split(' ')[0];
+        if (['Merge', 'Revert', 'Release'].includes(firstWord)) {
+            return {
+                valid: true,
+                type: firstWord.toLowerCase()
+            };
+        }
+    }
+    if (!type) {
+        return {
+            valid: false,
+            type
+        };
+    }
+    return {
+        valid: validTypes.includes(type.toLowerCase()),
+        type: type.toLowerCase()
+    };
+}
+exports["default"] = isValidTitle;
 
 
 /***/ }),
