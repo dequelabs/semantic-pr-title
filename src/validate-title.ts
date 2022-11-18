@@ -18,7 +18,7 @@ export default function isValidTitle(title: string): ValidTitle {
     headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
   })
 
-  // we allow merge, refactor, and release titles as
+  // we allow merge, refactor, and release commits as
   // valid pr titles
   if (!type) {
     const firstWord = title.split(' ')[0]
