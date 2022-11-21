@@ -62,4 +62,22 @@ describe('is-valid-title', () => {
     assert.isFalse(valid)
     assert.equal(type, 'fixture')
   })
+
+  it('returns false for merge-like title', () => {
+    const { valid, type } = validateTitle('merge mater into develop')
+    assert.isFalse(valid)
+    assert.equal(type, null)
+  })
+
+  it('returns false for release-like title', () => {
+    const { valid, type } = validateTitle('release the kraken')
+    assert.isFalse(valid)
+    assert.equal(type, null)
+  })
+
+  it('returns false for revert-like title', () => {
+    const { valid, type } = validateTitle('revert previous commit')
+    assert.isFalse(valid)
+    assert.equal(type, null)
+  })
 })
