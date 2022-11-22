@@ -5,5 +5,5 @@ A GitHub Action to validate pr titles against Conventional Commits
 ## Example usage
 
 ```yaml
-uses: dequelabs/semantic-pr-title
+uses: dequelabs/semantic-pr-title@v1
 ```
