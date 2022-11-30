@@ -31104,7 +31104,7 @@ function isValidTitle(title) {
     const { type } = conventionalCommitsParser.sync(title, {
         mergePattern: /^Merge pull request #(\d+) from (.*)$/,
         mergeCorrespondence: ['id', 'source'],
-        headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
+        headerPattern: /^(\w*)(?:\(([\w$.\-*,/ ]*)\))?: (.*)$/
     });
     if (!type) {
         const firstWord = title.split(' ')[0];
