@@ -80,4 +80,16 @@ describe('is-valid-title', () => {
     assert.isFalse(valid)
     assert.equal(type, null)
   })
+
+  it('allows comma in scope', () => {
+    const { valid, type } = validateTitle('fix(thing1,thing2): a bug')
+    assert.isTrue(valid)
+    assert.equal(type, 'fix')
+  })
+
+  it('allows slash in scope', () => {
+    const { valid, type } = validateTitle('fix(path/thing1,path/thing2): a bug')
+    assert.isTrue(valid)
+    assert.equal(type, 'fix')
+  })
 })

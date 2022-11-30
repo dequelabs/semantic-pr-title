@@ -14,8 +14,8 @@ export default function isValidTitle(title: string): ValidTitle {
     mergePattern: /^Merge pull request #(\d+) from (.*)$/,
     mergeCorrespondence: ['id', 'source'],
 
-    // allow comma in scope
-    headerPattern: /^(\w*)(?:\(([\w$.\-*, ]*)\))?: (.*)$/
+    // allow comma and slash in scope
+    headerPattern: /^(\w*)(?:\(([\w$.\-*,/ ]*)\))?: (.*)$/
   })
 
   // we allow merge, refactor, and release commits as
