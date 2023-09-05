@@ -92,4 +92,10 @@ describe('is-valid-title', () => {
     assert.isTrue(valid)
     assert.equal(type, 'fix')
   })
+
+  it('allows breaking change `!` in PR title', () => {
+    const { valid, type } = validateTitle('feat!: a breaking change')
+    assert.isTrue(valid)
+    assert.equal(type, 'feat')
+  })
 })
