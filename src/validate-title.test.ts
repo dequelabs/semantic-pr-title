@@ -33,6 +33,14 @@ describe('is-valid-title', () => {
     assert.equal(type, 'release')
   })
 
+  it('returns true for reapply commit', () => {
+    const { valid, type } = validateTitle(
+      'Reapply "fix(app): Add a Content Security Policy"'
+    )
+    assert.isTrue(valid)
+    assert.equal(type, 'reapply')
+  })
+
   it('returns true for title with scope', () => {
     const { valid, type } = validateTitle('fix(scope,other): fix both')
     assert.isTrue(valid)
@@ -77,6 +85,12 @@ describe('is-valid-title', () => {
 
   it('returns false for revert-like title', () => {
     const { valid, type } = validateTitle('revert previous commit')
+    assert.isFalse(valid)
+    assert.equal(type, null)
+  })
+
+  it('returns false for reapply-like title', () => {
+    const { valid, type } = validateTitle('reapply previous commit')
     assert.isFalse(valid)
     assert.equal(type, null)
   })

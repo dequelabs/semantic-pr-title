@@ -31108,7 +31108,7 @@ function isValidTitle(title) {
     });
     if (!type) {
         const firstWord = title.split(' ')[0];
-        if (['Merge', 'Revert', 'Release'].includes(firstWord)) {
+        if (['Merge', 'Revert', 'Release', 'Reapply'].includes(firstWord)) {
             return {
                 valid: true,
                 type: firstWord.toLowerCase()
